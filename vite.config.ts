@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/Shield-trust/',
   plugins: [react()],
+  base: '/trust-flow/',
   server: {
     port: 5173,
     open: true,
