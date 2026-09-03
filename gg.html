@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrustFlow — Verified Banking Protection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: ['class', '[data-theme="dark"]'],
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        teal: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-canvas: #f8faf9;
+            --bg-surface: #ffffff;
+            --bg-subtle: #f1f5f3;
+            --bg-inset: #f8faf9;
+            --border-main: #e2e8e5;
+            --border-light: #edf2ef;
+            --text-title: #14221d;
+            --text-body: #3c4c45;
+            --text-muted: #6b7a73;
+            --brand-primary: #0f766e;
+            --brand-hover: #115e59;
+            --brand-light: #e6f5f3;
+            --brand-contrast: #ffffff;
+            --card-shadow: 0 1px 3px 0 rgba(16, 34, 27, 0.04), 0 1px 2px -1px rgba(16, 34, 27, 0.04);
+            --modal-shadow: 0 12px 28px -4px rgba(16, 34, 27, 0.12);
+        }
+
+        [data-theme="dark"] {
+            --bg-canvas: #0b1317;
+            --bg-surface: #121c21;
+            --bg-subtle: #17242a;
+            --bg-inset: #0e171c;
+            --border-main: #203138;
+            --border-light: #19272d;
+            --text-title: #f1f5f3;
+            --text-body: #cfdbd5;
+            --text-muted: #83978f;
+            --brand-primary: #14b8a6;
+            --brand-hover: #2dd4bf;
+            --brand-light: #133333;
+            --brand-contrast: #071917;
+            --card-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.4);
+            --modal-shadow: 0 20px 36px -8px rgba(0, 0, 0, 0.6);
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-body);
+            transition: background-color 180ms ease, color 180ms ease;
+        }
+
+        .surface-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-main);
+            box-shadow: var(--card-shadow);
+        }
+
+        .surface-subtle {
+            background-color: var(--bg-subtle);
+            border: 1px solid var(--border-light);
+        }
+
+        .surface-inset {
+            background-color: var(--bg-inset);
+            border: 1px solid var(--border-main);
+        }
+
+        button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 2px solid var(--brand-primary);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-teal-500 selection:text-white antialiased">
+
+    <!-- Header Navigation -->
+    <header class="border-b sticky top-0 z-30 transition-colors" style="background-color: var(--bg-surface); border-color: var(--border-main);">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <button onclick="goToLanding()" class="flex items-center space-x-2.5 text-left group">
+                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white" style="background-color: var(--brand-primary);">
+                    <i data-lucide="shield-check" class="w-4 h-4 stroke-[2.2]"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-sm tracking-tight block leading-tight" style="color: var(--text-title);">TrustFlow</span>
+                    <span class="text-[11px] block text-teal-700 dark:text-teal-400 font-medium">Safe Transfer Flow</span>
+                </div>
+            </button>
+
+            <!-- Minimal header items -->
+            <div class="flex items-center space-x-3">
+                <button onclick="showModal('how-it-works-modal')" class="text-xs font-medium px-2.5 py-1.5 rounded-lg hover:underline transition" style="color: var(--text-muted);">
+                    How it works
+                </button>
+                <button onclick="showModal('safety-help-modal')" class="text-xs font-medium px-2.5 py-1.5 rounded-lg hover:underline transition" style="color: var(--text-muted);">
+                    Safety help
+                </button>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="p-2 rounded-lg border surface-subtle hover:opacity-80 transition" aria-label="Toggle theme">
+                    <i data-lucide="moon" class="w-3.5 h-3.5 hidden dark:block" style="color: var(--text-muted);"></i>
+                    <i data-lucide="sun" class="w-3.5 h-3.5 block dark:hidden" style="color: var(--text-muted);"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Guided Stepper (Visible during Flow) -->
+    <div id="flow-stepper-container" class="hidden border-b transition-colors" style="background-color: var(--bg-surface); border-color: var(--border-main);">
+        <div class="max-w-3xl mx-auto px-4 py-3.5">
+            <div class="flex items-center justify-between mb-2">
+                <span id="step-eyebrow" class="text-[11px] font-semibold tracking-wide uppercase" style="color: var(--brand-primary);">Step 1 of 6</span>
+                <span id="step-title-compact" class="text-xs font-medium" style="color: var(--text-muted);">Add recipient</span>
+            </div>
+            <!-- Visual Progress bar -->
+            <div class="w-full h-1.5 rounded-full overflow-hidden surface-subtle">
+                <div id="step-progress-bar" class="h-full transition-all duration-300 rounded-full" style="background-color: var(--brand-primary); width: 16%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-3xl w-full mx-auto p-4 sm:p-6 md:py-8">
+
+        <!-- ================= STAGE 0: OVERVIEW / LANDING ================= -->
+        <section id="view-overview" class="view-panel space-y-6">
+            <div class="surface-card rounded-2xl p-6 sm:p-8 space-y-5">
+                <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-semibold" style="background-color: var(--brand-light); color: var(--brand-primary);">
+                    <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
+                    <span>Cooperative Scam Protection</span>
+                </div>
+                
+                <div class="space-y-2">
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight" style="color: var(--text-title);">
+                        Transfer money with confidence.
+                    </h1>
+                    <p class="text-sm sm:text-base leading-relaxed" style="color: var(--text-body);">
+                        TrustFlow quietly runs safety checks before funds leave your account. If a transfer looks unusual or pressured by an unknown caller, we verify details with you and involve a designated family member before any money moves.
+                    </p>
+                </div>
+
+                <div class="surface-subtle p-4 rounded-xl space-y-2 text-xs" style="color: var(--text-body);">
+                    <p class="font-semibold text-xs" style="color: var(--text-title);">How your transfer stays protected:</p>
+                    <div class="grid sm:grid-cols-3 gap-3 pt-1">
+                        <div class="flex items-start space-x-2">
+                            <i data-lucide="user-check" class="w-4 h-4 mt-0.5 text-teal-600 dark:text-teal-400 shrink-0"></i>
+                            <span>Beneficiary checks against registered records</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i data-lucide="message-square-warning" class="w-4 h-4 mt-0.5 text-teal-600 dark:text-teal-400 shrink-0"></i>
+                            <span>Real-time detection of urgency or impersonation</span>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <i data-lucide="users" class="w-4 h-4 mt-0.5 text-teal-600 dark:text-teal-400 shrink-0"></i>
+                            <span>Family Shield verification when risk is critical</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex flex-col sm:flex-row items-center gap-3">
+                    <button onclick="startFlow()" class="w-full sm:w-auto px-6 py-3 rounded-xl text-sm font-semibold text-white transition flex items-center justify-center space-x-2 shadow-sm" style="background-color: var(--brand-primary);">
+                        <span>Start secure transfer</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="loadHeroDemoPreset()" class="w-full sm:w-auto px-4 py-3 rounded-xl text-xs sm:text-sm font-medium border surface-card hover:bg-slate-50 dark:hover:bg-slate-800 transition text-slate-700 dark:text-slate-200">
+                        Try 60s demonstration scenario
+                    </button>
+                </div>
+            </div>
+
+            <!-- Context note -->
+            <p class="text-[11px] text-center" style="color: var(--text-muted);">
+                Aligned with safe digital banking guidelines. No passwords or financial credentials are ever stored.
+            </p>
+        </section>
+
+
+        <!-- ================= STEP 1: ADD BENEFICIARY ================= -->
+        <section id="view-add-beneficiary" class="view-panel hidden space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold" style="color: var(--text-title);">Add recipient</h2>
+                <p class="text-xs" style="color: var(--text-muted);">Enter the bank details of the person or business you want to pay.</p>
+            </div>
+
+            <form id="form-beneficiary" onsubmit="handleBeneficiarySubmit(event)" class="surface-card p-6 rounded-2xl space-y-4">
+                <div>
+                    <label for="ben-name" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">Full legal name</label>
+                    <input type="text" id="ben-name" required value="Rahul Sharma" class="w-full surface-inset rounded-xl p-3 text-sm focus:outline-none transition" style="color: var(--text-title);" placeholder="As shown on their bank account">
+                    <p id="err-ben-name" class="hidden text-xs text-rose-600 dark:text-rose-400 mt-1">Please enter a valid recipient name.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="ben-acc" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">Account number</label>
+                        <input type="text" id="ben-acc" required value="987654321234" class="w-full surface-inset rounded-xl p-3 text-sm font-mono focus:outline-none transition" style="color: var(--text-title);" placeholder="e.g. 987654321234">
+                    </div>
+                    <div>
+                        <label for="ben-acc-confirm" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">Confirm account number</label>
+                        <input type="text" id="ben-acc-confirm" required value="987654321234" class="w-full surface-inset rounded-xl p-3 text-sm font-mono focus:outline-none transition" style="color: var(--text-title);" placeholder="Re-type account number">
+                        <p id="err-ben-match" class="hidden text-xs text-rose-600 dark:text-rose-400 mt-1">Account numbers must match.</p>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="ben-ifsc" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">IFSC code</label>
+                        <input type="text" id="ben-ifsc" required value="SBIN0001234" class="w-full surface-inset rounded-xl p-3 text-sm font-mono uppercase focus:outline-none transition" style="color: var(--text-title);" placeholder="e.g. SBIN0001234">
+                    </div>
+                    <div>
+                        <label for="ben-bank" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">Bank name</label>
+                        <input type="text" id="ben-bank" required value="State Bank of India" class="w-full surface-inset rounded-xl p-3 text-sm focus:outline-none transition" style="color: var(--text-title);" placeholder="Bank branch name">
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex items-center justify-between" style="border-color: var(--border-main);">
+                    <button type="button" onclick="goToLanding()" class="text-xs font-medium px-4 py-2.5 rounded-lg hover:underline transition" style="color: var(--text-muted);">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white transition flex items-center space-x-1.5 shadow-sm" style="background-color: var(--brand-primary);">
+                        <span>Verify beneficiary</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+
+        <!-- ================= STEP 2: BENEFICIARY VERIFICATION ================= -->
+        <section id="view-verification-result" class="view-panel hidden space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold" style="color: var(--text-title);">Recipient verification</h2>
+                <p class="text-xs" style="color: var(--text-muted);">We cross-referenced these details against official bank clearing directories.</p>
+            </div>
+
+            <div class="surface-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center justify-between p-3.5 surface-subtle rounded-xl">
+                    <div class="flex items-center space-x-2.5">
+                        <i data-lucide="check" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                        <div>
+                            <p class="text-xs font-semibold" style="color: var(--text-title);">IFSC validation</p>
+                            <p class="text-[11px]" style="color: var(--text-muted);">Valid branch format (SBIN0001234)</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">Valid</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3.5 surface-subtle rounded-xl">
+                    <div class="flex items-center space-x-2.5">
+                        <i data-lucide="check" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                        <div>
+                            <p class="text-xs font-semibold" style="color: var(--text-title);">Account structure</p>
+                            <p class="text-[11px]" style="color: var(--text-muted);">Valid 12-digit standard checksum</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">Valid</span>
+                </div>
+
+                <div class="flex items-center justify-between p-3.5 surface-subtle rounded-xl">
+                    <div class="flex items-center space-x-2.5">
+                        <i data-lucide="info" class="w-4 h-4 text-amber-600 dark:text-amber-400"></i>
+                        <div>
+                            <p class="text-xs font-semibold" style="color: var(--text-title);">Name match status</p>
+                            <p class="text-[11px]" style="color: var(--text-muted);">Registered: R. K. Sharma (Input: Rahul Sharma)</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800">Partial Match</span>
+                </div>
+
+                <!-- Calm explanation of partial match -->
+                <div class="p-4 rounded-xl surface-inset border flex items-start space-x-3" style="border-color: var(--border-main);">
+                    <i data-lucide="shield-alert" class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5"></i>
+                    <div class="space-y-0.5">
+                        <p class="text-xs font-semibold" style="color: var(--text-title);">Notice: Name format differs slightly</p>
+                        <p class="text-xs leading-relaxed" style="color: var(--text-body);">
+                            The registered account holder name matches partially. This happens frequently with initials or abbreviations. You can continue safely; we will simply double-check context in the next step.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex items-center justify-between" style="border-color: var(--border-main);">
+                    <button type="button" onclick="setStep(1)" class="text-xs font-medium px-4 py-2.5 rounded-lg hover:underline transition" style="color: var(--text-muted);">
+                        Back
+                    </button>
+                    <button type="button" onclick="setStep(3)" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white transition flex items-center space-x-1.5 shadow-sm" style="background-color: var(--brand-primary);">
+                        <span>Continue to transfer</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= STEP 3: TRANSFER DETAILS ================= -->
+        <section id="view-transfer-details" class="view-panel hidden space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold" style="color: var(--text-title);">Transfer details</h2>
+                <p class="text-xs" style="color: var(--text-muted);">Confirm the amount and recipient for this transaction.</p>
+            </div>
+
+            <form id="form-transfer" onsubmit="handleTransferSubmit(event)" class="surface-card p-6 rounded-2xl space-y-5">
+                <!-- Summary of recipient -->
+                <div class="p-3.5 rounded-xl surface-subtle flex items-center justify-between text-xs">
+                    <div>
+                        <span class="text-[10px] uppercase font-semibold block" style="color: var(--text-muted);">Sending money to</span>
+                        <span class="font-semibold text-sm" id="tx-recipient-name" style="color: var(--text-title);">Rahul Sharma</span>
+                        <span class="block text-[11px] font-mono" id="tx-recipient-acc" style="color: var(--text-muted);">Account •••• 1234 • SBI</span>
+                    </div>
+                    <button type="button" onclick="setStep(1)" class="text-xs font-medium text-teal-700 dark:text-teal-400 hover:underline">
+                        Change
+                    </button>
+                </div>
+
+                <div>
+                    <label for="tx-amount" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">Amount (INR)</label>
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 font-semibold text-sm" style="color: var(--text-muted);">₹</span>
+                        <input type="number" id="tx-amount" required value="80000" min="1" class="w-full surface-inset rounded-xl py-3 pl-8 pr-4 text-base font-semibold focus:outline-none transition" style="color: var(--text-title);">
+                    </div>
+                    <p class="text-[11px] mt-1" style="color: var(--text-muted);">Standard daily limit remaining: ₹1,00,000</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-3">
+                    <div>
+                        <label for="tx-purpose" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">Purpose of payment</label>
+                        <select id="tx-purpose" class="w-full surface-inset rounded-xl p-3 text-xs sm:text-sm focus:outline-none transition" style="color: var(--text-title);">
+                            <option value="urgent-verification" selected>Account verification / Security call</option>
+                            <option value="family-support">Family or friend support</option>
+                            <option value="services">Bill payment or services</option>
+                            <option value="investment">Investment / Trade</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="tx-note" class="block text-xs font-semibold mb-1.5" style="color: var(--text-title);">Note (optional)</label>
+                        <input type="text" id="tx-note" value="Demanded to prevent account freeze" class="w-full surface-inset rounded-xl p-3 text-xs sm:text-sm focus:outline-none transition" style="color: var(--text-title);" placeholder="Add a memo">
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex items-center justify-between" style="border-color: var(--border-main);">
+                    <button type="button" onclick="setStep(2)" class="text-xs font-medium px-4 py-2.5 rounded-lg hover:underline transition" style="color: var(--text-muted);">
+                        Back
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white transition flex items-center space-x-1.5 shadow-sm" style="background-color: var(--brand-primary);">
+                        <span>Proceed to safety check</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+
+        <!-- ================= STEP 4: SAFETY CHECK ================= -->
+        <section id="view-safety-check" class="view-panel hidden space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold" style="color: var(--text-title);">Quick safety questions</h2>
+                <p class="text-xs" style="color: var(--text-muted);">Criminals frequently pressure people into transfers. Take 15 seconds to answer these 3 questions.</p>
+            </div>
+
+            <div class="surface-card p-6 rounded-2xl space-y-6">
+                <!-- Conversational Questions -->
+                <div class="space-y-4">
+                    <div class="p-3.5 rounded-xl surface-subtle space-y-2">
+                        <label class="block text-xs font-semibold" style="color: var(--text-title);">
+                            1. Did someone contact you claiming your bank account or card will be blocked?
+                        </label>
+                        <div class="flex gap-3 text-xs">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q-urgent" value="yes" checked class="text-teal-600 focus:ring-teal-500">
+                                <span style="color: var(--text-title);">Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q-urgent" value="no" class="text-teal-600 focus:ring-teal-500">
+                                <span style="color: var(--text-title);">No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl surface-subtle space-y-2">
+                        <label class="block text-xs font-semibold" style="color: var(--text-title);">
+                            2. Are you making this payment while on an active call with someone directing you?
+                        </label>
+                        <div class="flex gap-3 text-xs">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q-call" value="yes" checked class="text-teal-600 focus:ring-teal-500">
+                                <span style="color: var(--text-title);">Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q-call" value="no" class="text-teal-600 focus:ring-teal-500">
+                                <span style="color: var(--text-title);">No</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl surface-subtle space-y-2">
+                        <label class="block text-xs font-semibold" style="color: var(--text-title);">
+                            3. Did they ask you for an OTP, password, or to install remote-viewing software?
+                        </label>
+                        <div class="flex gap-3 text-xs">
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q-otp" value="yes" checked class="text-teal-600 focus:ring-teal-500">
+                                <span style="color: var(--text-title);">Yes</span>
+                            </label>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="q-otp" value="no" class="text-teal-600 focus:ring-teal-500">
+                                <span style="color: var(--text-title);">No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional Suspicious Message Inspector (Preserved) -->
+                <div class="pt-2 border-t" style="border-color: var(--border-main);">
+                    <button type="button" onclick="toggleMessageChecker()" class="flex items-center justify-between w-full text-left text-xs font-semibold py-1" style="color: var(--brand-primary);">
+                        <span class="flex items-center gap-1.5">
+                            <i data-lucide="file-search" class="w-3.5 h-3.5"></i>
+                            Optional: Check a suspicious SMS or WhatsApp message
+                        </span>
+                        <i id="msg-chevron" data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform"></i>
+                    </button>
+
+                    <div id="msg-checker-body" class="hidden space-y-2 mt-3">
+                        <textarea id="se-input" rows="2" class="w-full surface-inset rounded-xl p-3 text-xs focus:outline-none transition resize-none" style="color: var(--text-title);" placeholder="Paste suspicious SMS or message here..."></textarea>
+                        <div class="flex justify-between items-center text-xs">
+                            <button type="button" onclick="fillScamMessageSample()" class="text-[11px] text-teal-700 dark:text-teal-400 hover:underline">
+                                Fill demo scam message
+                            </button>
+                            <button type="button" onclick="scanMessageText()" class="px-3 py-1.5 rounded-lg text-xs font-medium surface-subtle border hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                                Scan text
+                            </button>
+                        </div>
+                        <div id="se-result" class="hidden text-xs p-3 rounded-xl surface-inset border space-y-1"></div>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex items-center justify-between" style="border-color: var(--border-main);">
+                    <button type="button" onclick="setStep(3)" class="text-xs font-medium px-4 py-2.5 rounded-lg hover:underline transition" style="color: var(--text-muted);">
+                        Back
+                    </button>
+                    <button type="button" onclick="calculateAndGoToRisk()" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white transition flex items-center space-x-1.5 shadow-sm" style="background-color: var(--brand-primary);">
+                        <span>Review transfer risk</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= STEP 5: RISK REVIEW ================= -->
+        <section id="view-risk-review" class="view-panel hidden space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold" style="color: var(--text-title);">Safety review</h2>
+                <p class="text-xs" style="color: var(--text-muted);">TrustFlow checked your answers and transaction details.</p>
+            </div>
+
+            <div class="surface-card p-6 rounded-2xl space-y-5">
+                <!-- Human-readable Status Box -->
+                <div id="risk-banner" class="p-4 rounded-xl border flex items-start space-x-3 bg-amber-50/70 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800/80">
+                    <i data-lucide="shield-alert" class="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5"></i>
+                    <div class="space-y-1">
+                        <p class="text-xs font-bold text-amber-900 dark:text-amber-300 uppercase tracking-wide">Extra safety check recommended</p>
+                        <p class="text-xs leading-relaxed text-amber-900/90 dark:text-amber-200/90" id="risk-narrative-summary">
+                            This transfer requires your confirmation because it is a higher amount sent to a new recipient late at night, following urgent contact signs.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Signals in Human Language -->
+                <div class="space-y-2">
+                    <p class="text-xs font-semibold" style="color: var(--text-title);">Observations noted for this payment:</p>
+                    <div class="surface-subtle p-3.5 rounded-xl space-y-2 text-xs" style="color: var(--text-body);">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0"></i>
+                            <span>Transfer amount is higher than your usual daily average (₹80,000)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0"></i>
+                            <span>Recipient was added recently with a slight name spelling difference</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-slate-500 shrink-0"></i>
+                            <span>Attempted at an unusual time (02:13 AM)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="phone-off" class="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0"></i>
+                            <span>You indicated an active call demanding immediate payment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="surface-inset p-4 rounded-xl text-xs space-y-1" style="border-color: var(--border-main);">
+                    <p class="font-semibold" style="color: var(--text-title);">Next recommended step:</p>
+                    <p style="color: var(--text-body);">
+                        Because this matches patterns seen in bank impersonation scams, we suggest letting your trusted family contact review it before funds dispatch.
+                    </p>
+                </div>
+
+                <div class="pt-3 border-t flex flex-col sm:flex-row items-center justify-between gap-3" style="border-color: var(--border-main);">
+                    <button type="button" onclick="setStep(4)" class="w-full sm:w-auto text-xs font-medium px-4 py-2.5 rounded-lg hover:underline transition order-2 sm:order-1" style="color: var(--text-muted);">
+                        Back
+                    </button>
+                    <div class="flex flex-col sm:flex-row w-full sm:w-auto gap-2 order-1 sm:order-2">
+                        <button type="button" onclick="cancelTransfer()" class="px-4 py-2.5 rounded-xl text-xs font-medium surface-subtle border hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                            Cancel transfer
+                        </button>
+                        <button type="button" onclick="setStep(6)" class="px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white transition flex items-center justify-center space-x-1.5 shadow-sm" style="background-color: var(--brand-primary);">
+                            <span>Ask trusted contact to review</span>
+                            <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= STEP 6: PROTECTION STEP (FAMILY SHIELD) ================= -->
+        <section id="view-protection-step" class="view-panel hidden space-y-6">
+            <div class="space-y-1">
+                <h2 class="text-xl font-bold" style="color: var(--text-title);">Family Shield confirmation</h2>
+                <p class="text-xs" style="color: var(--text-muted);">Your registered family member can independently verify this request.</p>
+            </div>
+
+            <div class="surface-card p-6 rounded-2xl space-y-6">
+                <!-- Trusted Contact Detail Card -->
+                <div class="p-4 rounded-xl surface-subtle flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background-color: var(--brand-primary);">
+                            PK
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold" style="color: var(--text-title);">Priya Kumar</p>
+                            <p class="text-[11px]" style="color: var(--text-muted);">Primary Trusted Contact (Daughter)</p>
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-medium text-teal-800 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/80 px-2 py-1 rounded-md border border-teal-200 dark:border-teal-900">
+                        Voluntarily Registered
+                    </span>
+                </div>
+
+                <!-- Simulation explanation -->
+                <div class="surface-inset p-4 rounded-xl border text-xs space-y-2" style="border-color: var(--border-main);">
+                    <div class="flex items-center space-x-2 text-teal-700 dark:text-teal-400 font-semibold">
+                        <i data-lucide="info" class="w-4 h-4"></i>
+                        <span>Prototype Demonstration Mode</span>
+                    </div>
+                    <p style="color: var(--text-body);">
+                        In actual operation, a secure notification is sent to Priya's bank application and WhatsApp. For this demonstration, review Priya's perspective directly below:
+                    </p>
+                </div>
+
+                <!-- Trusted Contact Prompt Preview -->
+                <div class="p-4 rounded-xl border border-amber-300 dark:border-amber-800/80 bg-amber-50/50 dark:bg-amber-950/20 space-y-3">
+                    <div class="flex items-center justify-between text-xs font-semibold text-amber-900 dark:text-amber-300">
+                        <span class="flex items-center gap-1.5">
+                            <i data-lucide="bell" class="w-3.5 h-3.5"></i>
+                            Priya's Phone Alert: "Urgent check required"
+                        </span>
+                        <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded surface-subtle">Preview</span>
+                    </div>
+
+                    <p class="text-xs leading-relaxed" style="color: var(--text-body);">
+                        "Your parent is about to send <strong>₹80,000</strong> to <strong>Rahul Sharma</strong> at 2:13 AM following a reported account blockage call. Did you discuss this transfer?"
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button type="button" onclick="completeFinalFlow(false)" class="text-xs py-2.5 rounded-lg border surface-card hover:bg-slate-50 dark:hover:bg-slate-800 font-medium transition" style="color: var(--text-body);">
+                            Yes, this was expected
+                        </button>
+                        <button type="button" onclick="completeFinalFlow(true)" class="text-xs py-2.5 rounded-lg font-semibold text-white transition shadow-sm bg-rose-700 hover:bg-rose-600">
+                            No, this looks suspicious
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t flex items-center justify-between" style="border-color: var(--border-main);">
+                    <button type="button" onclick="setStep(5)" class="text-xs font-medium px-4 py-2.5 rounded-lg hover:underline transition" style="color: var(--text-muted);">
+                        Back
+                    </button>
+                    <button type="button" onclick="cancelTransfer()" class="text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline">
+                        Cancel transfer completely
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= STEP 7: FINAL RESULT (PROTECTED OR READY) ================= -->
+        <section id="view-final-result" class="view-panel hidden space-y-6">
+            <div id="final-card" class="surface-card p-6 sm:p-8 rounded-2xl space-y-6 text-center">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal: How TrustFlow Works -->
+    <div id="how-it-works-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="surface-card rounded-2xl max-w-lg w-full p-6 space-y-4 relative" style="box-shadow: var(--modal-shadow);">
+            <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--border-main);">
+                <h3 class="font-bold text-sm" style="color: var(--text-title);">How TrustFlow Works</h3>
+                <button onclick="hideModal('how-it-works-modal')" class="p-1 rounded-lg hover:opacity-75 transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="text-xs space-y-3 leading-relaxed" style="color: var(--text-body);">
+                <p>TrustFlow is an adaptive fraud prevention layer designed for digital banking customers.</p>
+                <p>Instead of abruptly blocking transfers or bombarding users with technical alerts, it looks at:</p>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>Recipient reliability and name match consistency</li>
+                    <li>Time of transaction and unusual device parameters</li>
+                    <li>Whether high-pressure scam language is driving the payment</li>
+                </ul>
+                <p>When risks cross critical levels, a designated family contact is brought in as a calm second check.</p>
+            </div>
+            <button onclick="hideModal('how-it-works-modal')" class="w-full py-2.5 rounded-xl text-xs font-semibold text-white transition" style="background-color: var(--brand-primary);">
+                Understood
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal: Safety Help (Preserved Multilingual Q&A) -->
+    <div id="safety-help-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="surface-card rounded-2xl max-w-xl w-full p-6 space-y-4 relative" style="box-shadow: var(--modal-shadow);">
+            <div class="flex items-center justify-between border-b pb-3" style="border-color: var(--border-main);">
+                <div>
+                    <h3 class="font-bold text-sm" style="color: var(--text-title);">Safety Help &amp; Guidance</h3>
+                    <p class="text-[11px]" style="color: var(--text-muted);">Common scam patterns and official bank advice</p>
+                </div>
+                <button onclick="hideModal('safety-help-modal')" class="p-1 rounded-lg hover:opacity-75 transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Language Switcher -->
+            <div class="flex surface-subtle p-1 rounded-xl w-fit text-xs font-semibold">
+                <button onclick="setLang('en')" id="btn-lang-en" class="px-3 py-1 rounded-lg transition bg-white dark:bg-slate-800 shadow-xs text-teal-800 dark:text-teal-300">English</button>
+                <button onclick="setLang('ta')" id="btn-lang-ta" class="px-3 py-1 rounded-lg transition text-slate-500 hover:text-slate-900 dark:hover:text-white">தமிழ்</button>
+                <button onclick="setLang('hi')" id="btn-lang-hi" class="px-3 py-1 rounded-lg transition text-slate-500 hover:text-slate-900 dark:hover:text-white">हिन्दी</button>
+            </div>
+
+            <!-- Q&A List -->
+            <div id="modal-qa-container" class="space-y-2.5 max-h-72 overflow-y-auto pr-1"></div>
+
+            <button onclick="hideModal('safety-help-modal')" class="w-full py-2.5 rounded-xl text-xs font-semibold text-white transition" style="background-color: var(--brand-primary);">
+                Close guidance
+            </button>
+        </div>
+    </div>
+
+    <!-- Minimal Calm Footer -->
+    <footer class="border-t py-6 text-center text-xs mt-auto transition-colors" style="background-color: var(--bg-surface); border-color: var(--border-main); color: var(--text-muted);">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>TrustFlow • Built on RBI-aligned consumer protection principles</p>
+            <p class="font-mono text-[11px]">Prototype Specification: 2026.2</p>
+        </div>
+    </footer>
+
+    <!-- Complete Guided Flow & Logic Engine -->
+    <script>
+        // State Store
+        let currentStep = 0; // 0 = Landing, 1 = Add Ben, 2 = Ben Verify, 3 = Transfer, 4 = Safety Check, 5 = Risk, 6 = Family Shield, 7 = Final Result
+        let currentLanguage = 'en';
+
+        const transferState = {
+            beneficiaryName: "Rahul Sharma",
+            accountNumber: "987654321234",
+            ifsc: "SBIN0001234",
+            bankName: "State Bank of India",
+            amount: "80,000",
+            purpose: "urgent-verification",
+            note: "Demanded to prevent account freeze",
+            isUrgent: true,
+            onActiveCall: true,
+            askedOtp: true,
+            suspiciousTextScanned: true,
+            riskScore: 91
+        };
+
+        const qaKnowledgeBase = [
+            {
+                q: { 
+                    en: "Should I share my OTP with a bank representative?", 
+                    ta: "வங்கி அலுவலரிடம் OTP எண்ணைப் பகிரலாமா?", 
+                    hi: "क्या मुझे बैंक प्रतिनिधि के साथ अपना ओटीपी साझा करना चाहिए?" 
+                },
+                a: { 
+                    en: "No. Banks will never ask for your One-Time Password (OTP) or UPI PIN under any circumstance.",
+                    ta: "இல்லை. வங்கி அலுவலர்கள் எக்காரணம் கொண்டும் உங்கள் OTP அல்லது UPI PIN எண்ணைக் கேட்க மாட்டார்கள்.",
+                    hi: "नहीं। बैंक किसी भी स्थिति में आपसे आपका ओटीपी या यूपीआई पिन कभी नहीं मांगेंगे।"
+                }
+            },
+            {
+                q: { 
+                    en: "Someone says my account will be suspended today. What should I do?", 
+                    ta: "எனது கணக்கு இன்றே முடக்கப்படும் என்று கூறினால் என்ன செய்வது?", 
+                    hi: "अगर कोई कहे कि मेरा खाता आज बंद हो जाएगा, तो मुझे क्या करना चाहिए?" 
+                },
+                a: { 
+                    en: "Do not rush. Official account freezing follows written legal notices, never urgent phone demands for money.",
+                    ta: "பயப்பட வேண்டாம். வங்கிகள் உடனடியாக பணம் அனுப்புமாறு அவசரப்படுத்தாது. உங்கள் வங்கி கிளையை அணுகவும்.",
+                    hi: "घबराएं नहीं। बैंक खाते को चालू रखने के लिए तत्काल पैसे भेजने की मांग कभी नहीं करते।"
+                }
+            },
+            {
+                q: { 
+                    en: "How can I verify if a caller is really from my bank?", 
+                    ta: "அழைப்பாளர் உண்மையிலேயே வங்கியிலிருந்து பேசுகிறாரா என்பதை எவ்வாறு அறிவது?", 
+                    hi: "मैं कैसे जांचूं कि फोन करने वाला सच में बैंक से है?" 
+                },
+                a: { 
+                    en: "Hang up immediately. Flip your physical debit or credit card and dial the customer care number printed on the back.",
+                    ta: "அழைப்பைத் துண்டிக்கவும். உங்கள் டெபிட் கார்டின் பின்னால் உள்ள அதிகாரப்பூர்வ வாடிக்கையாளர் எண்ணை அழைக்கவும்.",
+                    hi: "कॉल काट दें। अपने डेबिट कार्ड के पीछे दिए गए आधिकारिक ग्राहक सेवा नंबर पर कॉल करें।"
+                }
+            }
+        ];
+
+        // Step Configs for Progress
+        const stepMetadata = [
+            { title: "Overview", pct: 0 },
+            { title: "Add recipient", pct: 16 },
+            { title: "Recipient verification", pct: 33 },
+            { title: "Transfer details", pct: 50 },
+            { title: "Safety check", pct: 66 },
+            { title: "Risk review", pct: 83 },
+            { title: "Family confirmation", pct: 95 },
+            { title: "Result", pct: 100 }
+        ];
+
+        function setStep(stepIndex) {
+            currentStep = stepIndex;
+            document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
+
+            const stepper = document.getElementById('flow-stepper-container');
+            if (stepIndex === 0) {
+                stepper.classList.add('hidden');
+                document.getElementById('view-overview').classList.remove('hidden');
+            } else {
+                stepper.classList.remove('hidden');
+                const meta = stepMetadata[stepIndex];
+                document.getElementById('step-eyebrow').innerText = `Step ${stepIndex} of 6`;
+                document.getElementById('step-title-compact').innerText = meta.title;
+                document.getElementById('step-progress-bar').style.width = `${meta.pct}%`;
+
+                const viewIds = [
+                    'view-overview',
+                    'view-add-beneficiary',
+                    'view-verification-result',
+                    'view-transfer-details',
+                    'view-safety-check',
+                    'view-risk-review',
+                    'view-protection-step',
+                    'view-final-result'
+                ];
+                const activeView = document.getElementById(viewIds[stepIndex]);
+                if (activeView) activeView.classList.remove('hidden');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
+        }
+
+        function startFlow() {
+            setStep(1);
+        }
+
+        function goToLanding() {
+            setStep(0);
+        }
+
+        function loadHeroDemoPreset() {
+            // Preset the exact hackathon demo context
+            document.getElementById('ben-name').value = "Rahul Sharma";
+            document.getElementById('ben-acc').value = "987654321234";
+            document.getElementById('ben-acc-confirm').value = "987654321234";
+            document.getElementById('ben-ifsc').value = "SBIN0001234";
+            document.getElementById('ben-bank').value = "State Bank of India";
+
+            document.getElementById('tx-amount').value = 80000;
+            document.getElementById('tx-purpose').value = "urgent-verification";
+            document.getElementById('tx-note').value = "Demanded to prevent account freeze";
+
+            // Safety check answers
+            const urgentRadio = document.querySelector('input[name="q-urgent"][value="yes"]');
+            if (urgentRadio) urgentRadio.checked = true;
+            const callRadio = document.querySelector('input[name="q-call"][value="yes"]');
+            if (callRadio) callRadio.checked = true;
+            const otpRadio = document.querySelector('input[name="q-otp"][value="yes"]');
+            if (otpRadio) otpRadio.checked = true;
+
+            fillScamMessageSample();
+            setStep(1);
+        }
+
+        // Beneficiary Form Submission
+        function handleBeneficiarySubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('ben-name').value.trim();
+            const acc = document.getElementById('ben-acc').value.trim();
+            const accConfirm = document.getElementById('ben-acc-confirm').value.trim();
+            const ifsc = document.getElementById('ben-ifsc').value.trim();
+            const bank = document.getElementById('ben-bank').value.trim();
+
+            const matchError = document.getElementById('err-ben-match');
+            if (acc !== accConfirm) {
+                matchError.classList.remove('hidden');
+                return;
+            }
+            matchError.classList.add('hidden');
+
+            transferState.beneficiaryName = name;
+            transferState.accountNumber = acc;
+            transferState.ifsc = ifsc;
+            transferState.bankName = bank;
+
+            // Update transfer step preview text
+            document.getElementById('tx-recipient-name').innerText = name;
+            document.getElementById('tx-recipient-acc').innerText = `Account •••• ${acc.slice(-4)} • ${bank}`;
+
+            setStep(2);
+        }
+
+        // Transfer Form Submission
+        function handleTransferSubmit(e) {
+            e.preventDefault();
+            const amt = document.getElementById('tx-amount').value;
+            transferState.amount = Number(amt).toLocaleString('en-IN');
+            transferState.purpose = document.getElementById('tx-purpose').value;
+            transferState.note = document.getElementById('tx-note').value;
+            setStep(4);
+        }
+
+        // Safety Questions & Optional Scanning
+        function toggleMessageChecker() {
+            const body = document.getElementById('msg-checker-body');
+            const chevron = document.getElementById('msg-chevron');
+            body.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+
+        function fillScamMessageSample() {
+            document.getElementById('se-input').value = "Your bank account will be blocked today. Transfer ₹80,000 immediately to verify your account.";
+            scanMessageText();
+        }
+
+        function scanMessageText() {
+            const text = (document.getElementById('se-input').value || "").toLowerCase();
+            const resultBox = document.getElementById('se-result');
+            if (!text.trim()) return;
+
+            const keywords = ["blocked", "urgent", "immediately", "verify", "otp", "police", "kyc", "transfer now"];
+            const matched = keywords.filter(k => text.includes(k));
+
+            resultBox.classList.remove('hidden');
+            if (matched.length > 0) {
+                resultBox.innerHTML = `
+                    <p class="font-semibold text-rose-700 dark:text-rose-400">Pressure tactics detected in message:</p>
+                    <p class="text-[11px]" style="color: var(--text-body);">Contains urgency cues: <strong>${matched.join(', ')}</strong></p>
+                `;
+            } else {
+                resultBox.innerHTML = `
+                    <p class="font-semibold text-emerald-700 dark:text-emerald-400">No common pressure keywords found in this snippet.</p>
+                `;
+            }
+        }
+
+        function calculateAndGoToRisk() {
+            // Assess responses
+            const qUrgent = document.querySelector('input[name="q-urgent"]:checked')?.value === 'yes';
+            const qCall = document.querySelector('input[name="q-call"]:checked')?.value === 'yes';
+            const qOtp = document.querySelector('input[name="q-otp"]:checked')?.value === 'yes';
+
+            transferState.isUrgent = qUrgent;
+            transferState.onActiveCall = qCall;
+            transferState.askedOtp = qOtp;
+
+            // Summary text builder
+            const narrative = document.getElementById('risk-narrative-summary');
+            if (qUrgent || qCall || qOtp) {
+                narrative.innerText = `This transfer requires your confirmation because it is sending ₹${transferState.amount} to a new recipient at an unusual time, after an urgent call or message was indicated.`;
+            } else {
+                narrative.innerText = `This transfer has moderate safeguards: ₹${transferState.amount} to a new recipient with a minor name abbreviation variance.`;
+            }
+
+            setStep(5);
+        }
+
+        function cancelTransfer() {
+            alert("Transfer safely cancelled. No money left your account.");
+            goToLanding();
+        }
+
+        function completeFinalFlow(wasFlaggedSuspicious) {
+            const container = document.getElementById('final-card');
+            if (wasFlaggedSuspicious) {
+                // Threat Protected State
+                container.innerHTML = `
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/80">
+                        <i data-lucide="shield-check" class="w-6 h-6 stroke-[2.2]"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-bold" style="color: var(--text-title);">Transfer Protected</h2>
+                        <p class="text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">₹${transferState.amount} Kept Safe</p>
+                    </div>
+                    <p class="text-xs max-w-md mx-auto leading-relaxed" style="color: var(--text-body);">
+                        TrustFlow paused the transfer when unusual pressure signs were identified. Your trusted contact confirmed the activity looked suspicious, and the transaction was safely halted.
+                    </p>
+                    <div class="surface-subtle p-4 rounded-xl text-left text-xs max-w-md mx-auto space-y-2">
+                        <p class="font-semibold" style="color: var(--text-title);">What TrustFlow verified:</p>
+                        <div class="flex items-center space-x-2 text-emerald-700 dark:text-emerald-400">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Recipient name consistency checked</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-emerald-700 dark:text-emerald-400">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Urgency cues &amp; active call verified</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-emerald-700 dark:text-emerald-400">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Family Shield confirmation engaged</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-emerald-700 dark:text-emerald-400">
+                            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                            <span>Transfer halted without debiting your account</span>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="goToLanding()" class="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white transition shadow-sm" style="background-color: var(--brand-primary);">
+                            Return to homepage
+                        </button>
+                    </div>
+                `;
+            } else {
+                // Safe / Clear State
+                container.innerHTML = `
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto text-teal-700 dark:text-teal-300 bg-teal-100 dark:bg-teal-950/80">
+                        <i data-lucide="check-circle" class="w-6 h-6 stroke-[2.2]"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-bold" style="color: var(--text-title);">Ready to Transfer</h2>
+                        <p class="text-xs font-semibold text-teal-700 dark:text-teal-400 uppercase tracking-wider">Verification Complete</p>
+                    </div>
+                    <p class="text-xs max-w-md mx-auto leading-relaxed" style="color: var(--text-body);">
+                        Your trusted contact confirmed this transfer was expected. You can now proceed with your standard banking authorization PIN.
+                    </p>
+                    <div class="pt-2">
+                        <button onclick="goToLanding()" class="px-6 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-white transition shadow-sm" style="background-color: var(--brand-primary);">
+                            Done
+                        </button>
+                    </div>
+                `;
+            }
+            setStep(7);
+        }
+
+        // Modal Helpers
+        function showModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            if (id === 'safety-help-modal') renderQA();
+            lucide.createIcons();
+        }
+
+        function hideModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Q&A System
+        function setLang(lang) {
+            currentLanguage = lang;
+            ['en', 'ta', 'hi'].forEach(l => {
+                const btn = document.getElementById(`btn-lang-${l}`);
+                if (l === lang) {
+                    btn.className = "px-3 py-1 rounded-lg transition bg-white dark:bg-slate-800 shadow-xs text-teal-800 dark:text-teal-300 font-semibold";
+                } else {
+                    btn.className = "px-3 py-1 rounded-lg transition text-slate-500 hover:text-slate-900 dark:hover:text-white";
+                }
+            });
+            renderQA();
+        }
+
+        function renderQA() {
+            const list = document.getElementById('modal-qa-container');
+            list.innerHTML = qaKnowledgeBase.map(item => `
+                <div class="surface-subtle p-3 rounded-xl space-y-1 text-xs">
+                    <p class="font-bold flex items-start gap-1.5" style="color: var(--text-title);">
+                        <i data-lucide="help-circle" class="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5"></i>
+                        <span>${item.q[currentLanguage]}</span>
+                    </p>
+                    <p class="pl-5 leading-relaxed text-[11px]" style="color: var(--text-body);">${item.a[currentLanguage]}</p>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // Theme Management
+        function initTheme() {
+            const saved = localStorage.getItem('trustflow-theme');
+            if (saved) {
+                document.documentElement.setAttribute('data-theme', saved);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            }
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('trustflow-theme', target);
+            lucide.createIcons();
+        }
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            setStep(0);
+            renderQA();
+        });
+    </script>
+</body>
+</html>
