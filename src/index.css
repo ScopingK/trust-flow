@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-200 font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* High contrast focus ring for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-trust-blue;
+  }
+
+  /* Remove default button styles */
+  button {
+    @apply cursor-pointer;
+  }
+}
+
+@layer utilities {
+  /* Prevent scroll on body when modal open */
+  .modal-open {
+    overflow: hidden;
+  }
+
+  /* Custom scrollbar for debug panel */
+  .scrollbar-dark::-webkit-scrollbar {
+    width: 4px;
+  }
+  .scrollbar-dark::-webkit-scrollbar-track {
+    background: #1e293b;
+  }
+  .scrollbar-dark::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 2px;
+  }
+
+  /* Scale down on active (mobile press feel) */
+  .active\:scale-98:active {
+    transform: scale(0.98);
+  }
+}
