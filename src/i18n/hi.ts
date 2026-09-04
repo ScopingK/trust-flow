@@ -65,8 +65,7 @@ export const hi: TranslationDict = {
 
   // Transfer Modal
   transferModalTitle: 'राशि हस्तांतरण आरंभ करें',
-  selectPayeeStep: 'गंतव्य लाभार्थी चुनें',
-  addNewPayeeInline: '+ नया लाभार्थी जोड़ें',
+
   enterAmountStep: 'हस्तांतरण राशि दर्ज करें',
   amountPlaceholder: '0.00',
   continueSecurityCheck: 'जोखिम मूल्यांकन के साथ आगे बढ़ें',

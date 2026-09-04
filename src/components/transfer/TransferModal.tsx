@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ArrowRight, Loader2, Plus, CheckCircle2, ShieldCheck, Banknote } from 'lucide-react';
+import { X, ArrowRight, Loader2, CheckCircle2, ShieldCheck, Banknote } from 'lucide-react';
 import { BeneficiaryList } from '../payee/BeneficiaryList';
-import { AddPayeeModal } from '../payee/AddPayeeModal';
 import { LowRiskFlow } from './LowRiskFlow';
 import { MediumRiskFlow } from './MediumRiskFlow';
 import { HighRiskVerificationModal } from './HighRiskVerificationModal';
@@ -24,7 +23,6 @@ export function TransferModal({ isOpen, onClose }: TransferModalProps) {
   const { largeFontMode, flowStep, selectedPayee, currentRiskResult } = state;
 
   const [amount, setAmount] = useState('');
-  const [inlineAddOpen, setInlineAddOpen] = useState(false);
 
   const handleClose = () => {
     dispatch({ type: 'RESET_FLOW' });
@@ -136,21 +134,6 @@ export function TransferModal({ isOpen, onClose }: TransferModalProps) {
               <div className="p-6 sm:p-8 space-y-6">
                 {/* Payee Selection Section */}
                 <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <label className={clsx('block font-bold text-slate-800', largeFontMode ? 'text-lg' : 'text-sm sm:text-base')}>
-                      {t('selectPayeeStep')}
-                    </label>
-                    <button
-                      type="button"
-                      onClick={() => setInlineAddOpen(true)}
-                      className="text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1.5"
-                    >
-                      <Plus size={15} />
-                      {t('addNewPayeeInline')}
-                    </button>
-                  </div>
-
-                  {/* Beneficiary Grid */}
                   <BeneficiaryList
                     selectable
                     selectedId={selectedPayee?.id}
@@ -303,16 +286,6 @@ export function TransferModal({ isOpen, onClose }: TransferModalProps) {
           </div>
         </motion.div>
       </div>
-
-      {/* Inline Payee Add Modal */}
-      <AddPayeeModal
-        isOpen={inlineAddOpen}
-        onClose={() => setInlineAddOpen(false)}
-        onSuccess={(newPayee) => {
-          setInlineAddOpen(false);
-          handleSelectPayee(newPayee);
-        }}
-      />
     </>
   );
 }

@@ -63,8 +63,7 @@ export interface TranslationDict {
 
   // Transfer Modal
   transferModalTitle: string;
-  selectPayeeStep: string;
-  addNewPayeeInline: string;
+
   enterAmountStep: string;
   amountPlaceholder: string;
   continueSecurityCheck: string;

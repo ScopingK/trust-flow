@@ -65,8 +65,7 @@ export const en: TranslationDict = {
 
   // Transfer Modal
   transferModalTitle: 'Initiate Transfer',
-  selectPayeeStep: 'Select Destination Payee',
-  addNewPayeeInline: '+ Add New Beneficiary',
+
   enterAmountStep: 'Specify Transfer Amount',
   amountPlaceholder: '0.00',
   continueSecurityCheck: 'Proceed to Risk Evaluation',

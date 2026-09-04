@@ -65,8 +65,7 @@ export const ta: TranslationDict = {
 
   // Transfer Modal
   transferModalTitle: 'பணப்பரிமாற்றத்தை தொடங்கு',
-  selectPayeeStep: 'பெறுநரை தேர்ந்தெடுக்கவும்',
-  addNewPayeeInline: '+ புதிய பயனாளியை சேர்க்க',
+
   enterAmountStep: 'அனுப்ப வேண்டிய தொகையை உள்ளிடவும்',
   amountPlaceholder: '0.00',
   continueSecurityCheck: 'ஆபத்து மதிப்பீட்டிற்கு தொடரவும்',

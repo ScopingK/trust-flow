@@ -27,12 +27,12 @@ export function BeneficiaryList({
   return (
     <div className="space-y-4">
       {!hideHeader && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-          <div>
+        <div className="flex items-center justify-between gap-4 pb-3 border-b border-slate-100">
+          <div className="min-w-0">
             <h3 className={clsx('font-black text-slate-900 tracking-tight', lf ? 'text-2xl' : 'text-xl sm:text-2xl')}>
               {t('beneficiariesTitle')}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500 mt-0.5">{t('beneficiariesDesc')}</p>
+            <p className="text-xs sm:text-sm text-slate-500 mt-0.5 truncate sm:overflow-visible sm:whitespace-normal">{t('beneficiariesDesc')}</p>
           </div>
           <button
             type="button"
@@ -117,7 +117,14 @@ export function BeneficiaryList({
         </div>
       )}
 
-      <AddPayeeModal isOpen={showAddModal} onClose={() => setShowAddModal(false)} />
+      <AddPayeeModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSuccess={(newPayee) => {
+          setShowAddModal(false);
+          onSelectPayee?.(newPayee);
+        }}
+      />
     </div>
   );
 }
