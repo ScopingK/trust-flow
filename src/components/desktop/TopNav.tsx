@@ -60,9 +60,6 @@ export function TopNav() {
               <span className={clsx('font-extrabold tracking-tight', largeFontMode ? 'text-2xl' : 'text-xl')}>
                 {t('appTitle')}
               </span>
-              <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-blue-900/60 text-blue-300 border border-blue-700/50">
-                PROD-READY
-              </span>
             </div>
             <p className={clsx('text-slate-400 leading-none mt-0.5', largeFontMode ? 'text-xs' : 'text-[11px]')}>
               {t('appSubtitle')}
