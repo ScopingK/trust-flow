@@ -75,6 +75,16 @@ export const ta: TranslationDict = {
   paymentSuccessSubtext: 'டிரஸ்ட்ஃப்ளோ மோசடி தடுப்பு பாதுகாப்பின் கீழ் பணம் பாதுகாப்பாக மாற்றப்பட்டது.',
   doneBtn: 'முகப்பு பலகைக்கு திரும்புக',
 
+  // Transaction Table Headers
+  txColBeneficiary: 'பயனாளி பெயர்',
+  txColDate: 'செயலாக்க தேதி',
+  txColRisk: 'அபாய நிலை',
+  txColAmount: 'செலுத்தப்பட்ட தொகை',
+  txColStatus: 'நிலை',
+  riskBadgeLow: 'குறைந்த ஆபத்து',
+  riskBadgeMedium: 'நடுத்தர ஆபத்து',
+  riskBadgeHigh: 'அதிக ஆபத்து',
+
   // Risk Flows
   lowRiskTitle: 'குறைந்த ஆபத்து — உடனடி பரிமாற்றம்',
   lowRiskBanner: 'குறைந்த ஆபத்து சரிபார்ப்பு வெற்றிகரமானது',

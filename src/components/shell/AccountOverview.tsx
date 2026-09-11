@@ -22,7 +22,7 @@ interface AccountOverviewProps {
 export function AccountOverview({ onOpenTransfer }: AccountOverviewProps) {
   const { state } = useTrustFlow();
   const { t } = useTranslation();
-  const { transactions, availableBalance, userAccount, userName, largeFontMode } = state;
+  const { transactions, availableBalance, userAccount, userName, largeFontMode, language } = state;
 
   return (
     <div className="space-y-6 sm:space-y-8">
@@ -102,24 +102,25 @@ export function AccountOverview({ onOpenTransfer }: AccountOverviewProps) {
             <table className="w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-slate-200/80 text-slate-400 text-xs uppercase tracking-wider">
-                  <th className="pb-3.5 font-bold">Beneficiary Name</th>
-                  <th className="pb-3.5 font-bold">Execution Date</th>
-                  <th className="pb-3.5 font-bold">TrustFlow Risk Bracket</th>
-                  <th className="pb-3.5 font-bold text-right">Settled Amount</th>
-                  <th className="pb-3.5 font-bold text-right">Status</th>
+                  <th className="pb-3.5 font-bold">{t('txColBeneficiary')}</th>
+                  <th className="pb-3.5 font-bold">{t('txColDate')}</th>
+                  <th className="pb-3.5 font-bold">{t('txColRisk')}</th>
+                  <th className="pb-3.5 font-bold text-right">{t('txColAmount')}</th>
+                  <th className="pb-3.5 font-bold text-right">{t('txColStatus')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {transactions.slice(0, 6).map((tx) => {
                   const statusCfg = STATUS_CONFIGS[tx.status] || STATUS_CONFIGS.SUCCESS;
+                  const displayName = tx.payeeNameLocalized?.[language] ?? tx.payeeName;
                   return (
                     <tr key={tx.id} className="hover:bg-slate-50/80 transition-colors group">
                       <td className="py-4 font-bold text-slate-900">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-xl bg-slate-100 group-hover:bg-blue-100 text-slate-700 group-hover:text-blue-700 flex items-center justify-center font-black text-xs transition-colors flex-shrink-0 shadow-inner">
-                            {tx.payeeName.charAt(0)}
+                            {displayName.charAt(0)}
                           </div>
-                          <span className="truncate max-w-[180px] sm:max-w-xs">{tx.payeeName}</span>
+                          <span className="truncate max-w-[180px] sm:max-w-xs">{displayName}</span>
                         </div>
                       </td>
                       <td className="py-4 text-slate-500 font-medium text-xs sm:text-sm">
@@ -130,7 +131,7 @@ export function AccountOverview({ onOpenTransfer }: AccountOverviewProps) {
                       </td>
                       <td className="py-4">
                         <span className={clsx('px-3 py-1 rounded-full text-xs font-bold border', RISK_BADGES[tx.riskLevel])}>
-                          {tx.riskLevel} RISK
+                          {tx.riskLevel === 'LOW' ? t('riskBadgeLow') : tx.riskLevel === 'MEDIUM' ? t('riskBadgeMedium') : t('riskBadgeHigh')}
                         </span>
                       </td>
                       <td className="py-4 text-right font-black text-slate-900 text-base">

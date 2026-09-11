@@ -73,6 +73,16 @@ export interface TranslationDict {
   paymentSuccessSubtext: string;
   doneBtn: string;
 
+  // Transaction Table Headers
+  txColBeneficiary: string;
+  txColDate: string;
+  txColRisk: string;
+  txColAmount: string;
+  txColStatus: string;
+  riskBadgeLow: string;
+  riskBadgeMedium: string;
+  riskBadgeHigh: string;
+
   // Risk Flows
   lowRiskTitle: string;
   lowRiskBanner: string;

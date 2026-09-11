@@ -13,9 +13,11 @@ const SEED_PAYEES: Payee[] = [
   {
     id: 'p1',
     name: 'Ramesh Kumar',
+    nameLocalized: { en: 'Ramesh Kumar', hi: 'रमेश कुमार', ta: 'ரமேஷ் குமார்' },
     accountNumber: '****4521',
     ifscCode: 'SBIN0001234',
     bankName: 'State Bank of India',
+    bankNameLocalized: { en: 'State Bank of India', hi: 'भारतीय स्टेट बैंक', ta: 'ஸ்டேட் பேங்க் ஆஃப் இந்தியா' },
     isRbiVerified: true,
     rbiMatchedName: 'KUMAR RAMESH',
     addedAt: '2024-08-01',
@@ -24,9 +26,11 @@ const SEED_PAYEES: Payee[] = [
   {
     id: 'p2',
     name: 'Priya Sharma',
+    nameLocalized: { en: 'Priya Sharma', hi: 'प्रिया शर्मा', ta: 'பிரியா சர்மா' },
     accountNumber: '****8843',
     ifscCode: 'HDFC0002345',
     bankName: 'HDFC Bank',
+    bankNameLocalized: { en: 'HDFC Bank', hi: 'एचडीएफसी बैंक', ta: 'எச்டிஎஃப்சி வங்கி' },
     isRbiVerified: true,
     rbiMatchedName: 'SHARMA PRIYA',
     addedAt: '2024-09-15',
@@ -35,9 +39,11 @@ const SEED_PAYEES: Payee[] = [
   {
     id: 'p3',
     name: 'Anand Electronics Pvt Ltd',
+    nameLocalized: { en: 'Anand Electronics Pvt Ltd', hi: 'आनंद इलेक्ट्रॉनिक्स प्राइवेट लिमिटेड', ta: 'ஆனந்த் எலக்ட்ரானிக்ஸ் பிரைவேட் லிமிடெட்' },
     accountNumber: '****1199',
     ifscCode: 'ICIC0003456',
     bankName: 'ICICI Bank',
+    bankNameLocalized: { en: 'ICICI Bank', hi: 'आईसीआईसीआई बैंक', ta: 'ஐசிஐசிஐ வங்கி' },
     isRbiVerified: true,
     rbiMatchedName: 'ANAND ELECTRONICS PVT LTD',
     addedAt: '2024-10-20',
@@ -46,10 +52,10 @@ const SEED_PAYEES: Payee[] = [
 ];
 
 const SEED_TRANSACTIONS: Transaction[] = [
-  { id: 't1', payeeName: 'Ramesh Kumar', amount: 850, date: '2024-11-01', status: 'SUCCESS', riskLevel: 'LOW' },
-  { id: 't2', payeeName: 'Priya Sharma', amount: 4500, date: '2024-10-28', status: 'SUCCESS', riskLevel: 'MEDIUM' },
-  { id: 't3', payeeName: 'Anand Electronics', amount: 35000, date: '2024-10-15', status: 'SUCCESS', riskLevel: 'HIGH' },
-  { id: 't4', payeeName: 'Suspicious Merchant', amount: 65000, date: '2024-10-10', status: 'FAILED', riskLevel: 'HIGH' },
+  { id: 't1', payeeName: 'Ramesh Kumar', payeeNameLocalized: { en: 'Ramesh Kumar', hi: 'रमेश कुमार', ta: 'ரமேஷ் குமார்' }, amount: 850, date: '2024-11-01', status: 'SUCCESS', riskLevel: 'LOW' },
+  { id: 't2', payeeName: 'Priya Sharma', payeeNameLocalized: { en: 'Priya Sharma', hi: 'प्रिया शर्मा', ta: 'பிரியா சர்மா' }, amount: 4500, date: '2024-10-28', status: 'SUCCESS', riskLevel: 'MEDIUM' },
+  { id: 't3', payeeName: 'Anand Electronics', payeeNameLocalized: { en: 'Anand Electronics', hi: 'आनंद इलेक्ट्रॉनिक्स', ta: 'ஆனந்த் எலக்ட்ரானிக்ஸ்' }, amount: 35000, date: '2024-10-15', status: 'SUCCESS', riskLevel: 'HIGH' },
+  { id: 't4', payeeName: 'Suspicious Merchant', payeeNameLocalized: { en: 'Suspicious Merchant', hi: 'संदिग्ध व्यापारी', ta: 'சந்தேகத்திற்குரிய வணிகர்' }, amount: 65000, date: '2024-10-10', status: 'FAILED', riskLevel: 'HIGH' },
 ];
 
 const SEED_LOG: SecurityActivityLogItem[] = [

@@ -131,7 +131,7 @@ export function HighRiskVerificationModal({
         recipient: nomineeProfile.fullPhoneForDispatch,
         userName,
         amount: transferAmount,
-        payeeName: selectedPayee?.name || 'Beneficiary',
+        payeeName: (selectedPayee?.nameLocalized?.[state.language] ?? selectedPayee?.name) || 'Beneficiary',
         fraudHelpline: '1930',
       });
     } catch {

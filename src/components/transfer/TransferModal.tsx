@@ -58,6 +58,7 @@ export function TransferModal({ isOpen, onClose }: TransferModalProps) {
     const tx: Transaction = {
       id: `tx-${Date.now()}`,
       payeeName: selectedPayee.name,
+      payeeNameLocalized: selectedPayee.nameLocalized,
       amount: finalAmount,
       date: new Date().toISOString().split('T')[0],
       status: 'SUCCESS',
@@ -260,7 +261,7 @@ export function TransferModal({ isOpen, onClose }: TransferModalProps) {
                 <div className="bg-slate-50 rounded-2xl p-5 max-w-md mx-auto text-left border border-slate-200/80 space-y-2.5">
                   <div className="flex justify-between text-xs sm:text-sm py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Recipient Beneficiary:</span>
-                    <span className="font-bold text-slate-900">{selectedPayee?.name}</span>
+                    <span className="font-bold text-slate-900">{selectedPayee?.nameLocalized?.[state.language] ?? selectedPayee?.name}</span>
                   </div>
                   <div className="flex justify-between text-xs sm:text-sm py-1 border-b border-slate-200/60">
                     <span className="text-slate-500">Settled Amount:</span>

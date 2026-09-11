@@ -75,6 +75,16 @@ export const en: TranslationDict = {
   paymentSuccessSubtext: 'Transaction securely cleared under TrustFlow fraud prevention oversight.',
   doneBtn: 'Return to Dashboard',
 
+  // Transaction Table Headers
+  txColBeneficiary: 'Beneficiary Name',
+  txColDate: 'Execution Date',
+  txColRisk: 'TrustFlow Risk Bracket',
+  txColAmount: 'Settled Amount',
+  txColStatus: 'Status',
+  riskBadgeLow: 'LOW RISK',
+  riskBadgeMedium: 'MEDIUM RISK',
+  riskBadgeHigh: 'HIGH RISK',
+
   // Risk Flows
   lowRiskTitle: 'Low Risk — Immediate Processing',
   lowRiskBanner: 'Low Risk Verification Passed',

@@ -44,17 +44,17 @@ export function LowRiskFlow({ onConfirm, onCancel }: LowRiskFlowProps) {
               {t('payingTo')}
             </p>
             <p className={clsx('font-bold text-slate-900 mt-1', largeFontMode ? 'text-xl' : 'text-lg')}>
-              {selectedPayee?.name}
+              {selectedPayee?.nameLocalized?.[state.language] ?? selectedPayee?.name}
             </p>
             <p className="text-xs text-slate-500">
-              {selectedPayee?.bankName} • {selectedPayee?.accountNumber}
+              {(selectedPayee?.bankNameLocalized?.[state.language] ?? selectedPayee?.bankName)} • {selectedPayee?.accountNumber}
             </p>
           </div>
           <div
             className="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-sm"
             style={{ backgroundColor: selectedPayee?.avatarColor || '#1E40AF' }}
           >
-            {selectedPayee?.name?.charAt(0)}
+            {(selectedPayee?.nameLocalized?.[state.language] ?? selectedPayee?.name)?.charAt(0)}
           </div>
         </div>
 

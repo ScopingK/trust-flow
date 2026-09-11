@@ -111,13 +111,13 @@ export function MediumRiskFlow({ riskResult, onConfirm, onCancel }: MediumRiskFl
             className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-sm"
             style={{ backgroundColor: selectedPayee?.avatarColor || '#1E40AF' }}
           >
-            {selectedPayee?.name?.charAt(0)}
+            {(selectedPayee?.nameLocalized?.[state.language] ?? selectedPayee?.name)?.charAt(0)}
           </div>
           <div>
             <p className={clsx('font-bold text-slate-900', largeFontMode ? 'text-base' : 'text-sm')}>
-              {selectedPayee?.name}
+              {selectedPayee?.nameLocalized?.[state.language] ?? selectedPayee?.name}
             </p>
-            <p className="text-xs text-slate-500">{selectedPayee?.bankName} • {selectedPayee?.accountNumber}</p>
+            <p className="text-xs text-slate-500">{(selectedPayee?.bankNameLocalized?.[state.language] ?? selectedPayee?.bankName)} • {selectedPayee?.accountNumber}</p>
           </div>
         </div>
         <span className={clsx('font-black text-slate-900 text-lg sm:text-xl', largeFontMode && 'text-2xl')}>

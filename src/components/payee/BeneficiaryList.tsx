@@ -23,6 +23,7 @@ export function BeneficiaryList({
   const { t } = useTranslation();
   const [showAddModal, setShowAddModal] = useState(false);
   const lf = state.largeFontMode;
+  const lang = state.language;
 
   return (
     <div className="space-y-4">
@@ -81,14 +82,14 @@ export function BeneficiaryList({
                   className="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-base flex-shrink-0 shadow-sm transition-transform group-hover:scale-105"
                   style={{ backgroundColor: payee.avatarColor || '#1E40AF' }}
                 >
-                  {payee.name.charAt(0).toUpperCase()}
+                  {(payee.nameLocalized?.[lang] ?? payee.name).charAt(0).toUpperCase()}
                 </div>
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
                     <p className={clsx('font-black text-slate-900 truncate', lf ? 'text-lg' : 'text-sm sm:text-base')}>
-                      {payee.name}
+                      {payee.nameLocalized?.[lang] ?? payee.name}
                     </p>
                     {payee.isRbiVerified && (
                       <span title={t('rbiVerifiedBadge')}>
@@ -97,7 +98,7 @@ export function BeneficiaryList({
                     )}
                   </div>
                   <p className="text-xs text-slate-500 truncate font-semibold mt-0.5">
-                    {payee.bankName}
+                    {payee.bankNameLocalized?.[lang] ?? payee.bankName}
                   </p>
                   <div className="flex items-center gap-2 text-[11px] text-slate-400 font-mono mt-0.5">
                     <span>{payee.accountNumber}</span>

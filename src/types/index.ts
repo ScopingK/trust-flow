@@ -35,9 +35,13 @@ export interface RiskEvaluateResponse {
 export interface Payee {
   id: string;
   name: string;
+  /** Localized display names keyed by Language ('en' | 'hi' | 'ta') */
+  nameLocalized?: Record<string, string>;
   accountNumber: string;
   ifscCode: string;
   bankName: string;
+  /** Localized bank names keyed by Language */
+  bankNameLocalized?: Record<string, string>;
   isRbiVerified: boolean;
   rbiMatchedName: string;
   addedAt: string;
@@ -47,6 +51,8 @@ export interface Payee {
 export interface Transaction {
   id: string;
   payeeName: string;
+  /** Localized payee names keyed by Language */
+  payeeNameLocalized?: Record<string, string>;
   amount: number;
   date: string;
   status: 'SUCCESS' | 'PENDING' | 'FAILED';

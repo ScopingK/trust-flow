@@ -40,7 +40,7 @@ export const hi: TranslationDict = {
   noTransactions: 'कोई हालिया लेन-देन दर्ज नहीं है',
   statusSuccess: 'सफल',
   statusPending: 'प्रक्रियाधीन',
-  statusFailed: 'सुरक्षा द्वारा अवरुद्ध',
+  statusFailed: 'सुरक्षा द्वारा रोका गया',
   sendMoneyCta: 'पैसे ट्रांसफर करें',
 
   // Payees & Beneficiaries
@@ -74,6 +74,16 @@ export const hi: TranslationDict = {
   paymentSuccessTitle: 'भुगतान सफलतापूर्वक संपन्न हुआ!',
   paymentSuccessSubtext: 'ट्रस्टफ्लो धोखाधड़ी रोकथाम सुरक्षा के अंतर्गत लेन-देन सुरक्षित रूप से पूरा हुआ।',
   doneBtn: 'डैशबोर्ड पर वापस जाएँ',
+
+  // Transaction Table Headers
+  txColBeneficiary: 'लाभार्थी का नाम',
+  txColDate: 'निष्पादन तिथि',
+  txColRisk: 'जोखिम श्रेणी',
+  txColAmount: 'भुगतान की गई राशि',
+  txColStatus: 'स्थिति',
+  riskBadgeLow: 'कम जोखिम',
+  riskBadgeMedium: 'मध्यम जोखिम',
+  riskBadgeHigh: 'उच्च जोखिम',
 
   // Risk Flows
   lowRiskTitle: 'कम जोखिम — त्वरित हस्तांतरण',
