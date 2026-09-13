@@ -17,6 +17,7 @@ import {
 import { useTrustFlow } from '../../context/TrustFlowContext';
 import { useTranslation } from '../../i18n';
 import type { Language } from '../../types';
+import { login } from '../../api/authApi';
 import { clsx } from 'clsx';
 
 const DEMO_CUSTOMER_ID = 'user123';
@@ -33,7 +34,7 @@ export function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Handle normal form submit
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerId.trim() || !password.trim()) {
       setLoginError('Please enter both your Customer ID and Password/MPIN.');
@@ -43,9 +44,8 @@ export function LoginPage() {
     setIsLoading(true);
     setLoginError('');
 
-    // Simulate authenticating against banking auth server
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await login({ customerId: customerId.trim(), password: password.trim() });
       dispatch({ type: 'LOGIN' });
       dispatch({
         type: 'ADD_SECURITY_LOG',
@@ -58,18 +58,23 @@ export function LoginPage() {
           riskScore: 6,
         },
       });
-    }, 600);
+    } catch (err: any) {
+      const msg = err?.response?.data?.error || 'Authentication failed. Please try again.';
+      setLoginError(msg);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Quick action: Demo Auto-Login fills credentials & logs in instantly
-  const handleDemoAutoLogin = () => {
+  const handleDemoAutoLogin = async () => {
     setCustomerId(DEMO_CUSTOMER_ID);
     setPassword(DEMO_PASSWORD);
     setLoginError('');
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await login({ customerId: DEMO_CUSTOMER_ID, password: DEMO_PASSWORD });
       dispatch({ type: 'LOGIN' });
       dispatch({
         type: 'ADD_SECURITY_LOG',
@@ -82,7 +87,12 @@ export function LoginPage() {
           riskScore: 5,
         },
       });
-    }, 300);
+    } catch (err: any) {
+      const msg = err?.response?.data?.error || 'Demo login failed. Is the backend running?';
+      setLoginError(msg);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleLanguageChange = (lang: Language) => {

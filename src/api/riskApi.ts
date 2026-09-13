@@ -1,42 +1,12 @@
+import apiClient from './client';
 import type { RiskEvaluatePayload, RiskEvaluateResponse, RiskLevel } from '../types';
 
-const delay = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
-
 /**
- * Evaluate transaction risk based on exact amount-based thresholds:
- * - ₹0 to ₹1,000: Low Risk
- * - ₹1,001 to ₹10,000: Medium Risk
- * - Above ₹10,000: High Risk
- *
- * Simulator override (`forcedRiskLevel`) takes precedence when explicitly set.
+ * Client-side mock for simulator override.
+ * When `forcedRiskLevel` is set in the SimulatorBar, we bypass the backend
+ * and return a deterministic response — matching the original mock behaviour.
  */
-export async function evaluateRisk(
-  payload: RiskEvaluatePayload,
-  forcedRiskLevel?: RiskLevel | null,
-): Promise<RiskEvaluateResponse> {
-  await delay(900); // realistic evaluation latency
-
-  // Simulator override takes full precedence
-  if (forcedRiskLevel) {
-    return buildMockResponse(forcedRiskLevel, payload);
-  }
-
-  // Exact Amount-Based Dynamic Risk Evaluation Engine
-  const { amount } = payload;
-
-  let riskLevel: RiskLevel;
-  if (amount <= 1000) {
-    riskLevel = 'LOW';
-  } else if (amount <= 10000) {
-    riskLevel = 'MEDIUM';
-  } else {
-    riskLevel = 'HIGH';
-  }
-
-  return buildMockResponse(riskLevel, payload);
-}
-
-function buildMockResponse(level: RiskLevel, payload: RiskEvaluatePayload): RiskEvaluateResponse {
+function buildSimulatorResponse(level: RiskLevel, payload: RiskEvaluatePayload): RiskEvaluateResponse {
   const configs: Record<RiskLevel, RiskEvaluateResponse> = {
     LOW: {
       riskLevel: 'LOW',
@@ -66,4 +36,23 @@ function buildMockResponse(level: RiskLevel, payload: RiskEvaluatePayload): Risk
   };
 
   return configs[level];
+}
+
+/**
+ * Evaluate transaction risk.
+ *
+ * • If `forcedRiskLevel` is set (SimulatorBar override) → returns mock instantly.
+ * • Otherwise → hits the real backend at POST /api/v1/risk/evaluate.
+ */
+export async function evaluateRisk(
+  payload: RiskEvaluatePayload,
+  forcedRiskLevel?: RiskLevel | null,
+): Promise<RiskEvaluateResponse> {
+  // Simulator override takes full precedence (client-side only)
+  if (forcedRiskLevel) {
+    return buildSimulatorResponse(forcedRiskLevel, payload);
+  }
+
+  const { data } = await apiClient.post<RiskEvaluateResponse>('/api/v1/risk/evaluate', payload);
+  return data;
 }
